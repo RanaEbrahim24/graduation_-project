@@ -2,11 +2,11 @@
 {
     public class SmtpSettings
     {
-        public string Host { get; set; }
-        public int Port { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public bool EnableSsl { get; set; }
+        public string Host { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public int Port { get; set; } = 587; // تأكد من أن البورت مضبوط
+        public bool EnableSsl { get; set; } = true; // تأكد من تمكين SSL
     }
 }
 

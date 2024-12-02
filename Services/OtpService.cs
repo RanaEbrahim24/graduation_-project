@@ -45,7 +45,9 @@ namespace train.Services
                     IsBodyHtml = true,
                 };
 
+                // إرسال الرسالة فقط مع الـ OTP
                 mailMessage.To.Add(email);
+
                 try
                 {
                     client.Send(mailMessage);
@@ -58,14 +60,13 @@ namespace train.Services
             }
         }
 
-
         // Save OTP to Database
         public async Task SaveOtpToDatabase(string email, string otp)
         {
             var otpRecord = new OtpRecord
             {
                 Email = email,
-                Otp = otp,
+                OTP = otp,
                 ExpiryTime = DateTime.UtcNow.AddMinutes(5)
             };
 
@@ -74,10 +75,10 @@ namespace train.Services
         }
 
         // Validate OTP
-        public async Task<bool> ValidateOtp(string email, string otp)
+        public async Task<bool> ValidateOtp(string otp)
         {
             var otpRecord = _context.OtpRecords
-                .Where(r => r.Email == email && r.Otp == otp)
+                .Where(r => r.OTP == otp)
                 .FirstOrDefault();
 
             if (otpRecord == null || otpRecord.ExpiryTime < DateTime.UtcNow)
@@ -93,4 +94,6 @@ namespace train.Services
         }
     }
 }
+
+
 

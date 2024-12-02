@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using train.Models;
 using train.Services;
+using System.Threading.Tasks;
 
 namespace train.Controllers
 {
@@ -39,11 +39,11 @@ namespace train.Controllers
         [HttpPost("verify-otp")]
         public async Task<IActionResult> VerifyOtp([FromBody] OTPVerification otpVerification)
         {
-            if (string.IsNullOrWhiteSpace(otpVerification?.Email) || string.IsNullOrWhiteSpace(otpVerification?.OTP))
-                return BadRequest("Email and OTP are required.");
+            if (string.IsNullOrWhiteSpace(otpVerification?.OTP))
+                return BadRequest("OTP is required.");
 
             // Validate OTP
-            bool isValid = await _otpService.ValidateOtp(otpVerification.Email, otpVerification.OTP);
+            bool isValid = await _otpService.ValidateOtp(otpVerification.OTP);
 
             if (!isValid)
                 return Unauthorized("Invalid or expired OTP.");
@@ -53,5 +53,5 @@ namespace train.Controllers
     }
 }
 
-
+   
 
